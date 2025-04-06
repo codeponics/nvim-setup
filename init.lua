@@ -48,7 +48,11 @@ require("lazy").setup({
       -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
       lazy = false,
     },
-    {'akinsho/toggleterm.nvim', version = "*", config = true}
+    {'akinsho/toggleterm.nvim', version = "*", config = true},
+    {
+    'nvim-telescope/telescope.nvim', tag = '0.1.8',
+      dependencies = { 'nvim-lua/plenary.nvim' }
+    },
 })
 
 -- Setup mason and lsp plugins
@@ -130,8 +134,13 @@ require("oil").setup({
     ["gx"] = "actions.open_external",      -- Open file with external program
     ["gs"] = { "actions.change_sort", mode = "n" }, -- Change sort order
   },
-  -- Use the default keymaps if you don’t need custom ones:
   use_default_keymaps = true,
 })
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader><leader>', builtin.oldfiles, {})
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 
 vim.cmd[[colorscheme tokyonight-moon]]
