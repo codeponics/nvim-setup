@@ -51,7 +51,8 @@ local lsps = {
       }
     }
   },
-  markdown_oxide = {}
+  markdown_oxide = {},
+  texlab = {}
 }
 if vim.fn.has("win32") == 1 then
   lsps.omnisharp = {}
@@ -119,7 +120,8 @@ require("lazy").setup(
             "nvim-telescope/telescope.nvim",
             tag = "0.1.8",
             dependencies = {"nvim-lua/plenary.nvim"}
-        }
+        },
+        { "lervag/vimtex" },
     }
 )
 
@@ -175,3 +177,18 @@ vim.cmd [[colorscheme tokyonight-moon]]
 -- Indent and reselect visual selection
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
+
+-- vimtex
+vim.g.vimtex_compiler_method = 'latexmk'
+vim.g.vimtex_view_enabled = 0
+
+vim.opt.conceallevel = 2
+vim.g.tex_conceal = 'abdmg'
+
+vim.g.vimtex_view_method = 'sioyek'
+--vim.g.vimtex_view_sioyek_exe = "C:\\Program Files\\sioyek\\sioyek-release-windows\\sioyek.exe"
+vim.g.vimtex_view_sioyek_exe = "C:\\Users\\steve\\Downloads\\sioyek-release-windows\\sioyek-release-windows\\sioyek.exe"
+
+-- Disable help
+vim.keymap.set('n', '<F1>', '<nop>', { noremap = true, silent = true })
+vim.keymap.set('i', '<F1>', '<nop>', { noremap = true, silent = true })
