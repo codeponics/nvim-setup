@@ -7,8 +7,16 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.o.expandtab = true
-vim.o.shiftwidth = 4
-vim.o.tabstop = 4
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "c", "json", "ps1", "python" },
+  callback = function()
+    vim.bo.shiftwidth = 4
+    vim.bo.tabstop = 4
+  end
+})
 
 vim.o.clipboard = "unnamedplus"
 vim.o.scrolloff = 10
@@ -141,6 +149,7 @@ require("lazy").setup({
 	    vim.cmd.colorscheme("catppuccin")
 	  end
 	},
+  { "xiyaowong/transparent.nvim" },
   {"nvim-tree/nvim-tree.lua",
     config = function()
       require("nvim-tree").setup({})
@@ -160,6 +169,7 @@ require("lazy").setup({
         persist_size = true,
         direction = "horizontal",
         close_on_exit = true,
+        shell = "powershell",
         on_open = function(term)
           vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
         end
@@ -171,6 +181,11 @@ require("lazy").setup({
     event = "LspAttach",
     config = function()
       require("lsp-lens").setup({
+        references   = function(count)
+          -- chain-link icon + N usages:
+          return "🔗 " .. count .. (count == 1 and " usage" or " usages")
+        end,
+
         --[[sections = {
           references = false,
           git_authors = false
@@ -212,6 +227,14 @@ require("lazy").setup({
         }
       })
     end
+  },
+  { "github/copilot.vim" },
+  { "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+    },
+    opts = {}
   },
   {
     "neovim/nvim-lspconfig",
@@ -267,3 +290,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<CR>", "<CR>:cclose<CR>", { buffer = true, silent = true })
   end,
 })
+
+-- copilot
+vim.keymap.set("n", "<leader>c", ":CopilotChatToggle<CR>", { silent = true })
