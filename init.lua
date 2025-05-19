@@ -161,18 +161,21 @@ require("lazy").setup({
     config = function()
       require("toggleterm").setup({
         open_mapping = [[<c-\>]],
-        shade_terminals = true,
+        --shade_terminals = true,
         shading_factor = 2,
         start_in_insert = true,
         insert_mappings = true,
         terminal_mappings = true,
         persist_size = true,
-        direction = "horizontal",
+        direction = "float",
         close_on_exit = true,
         shell = "powershell",
         on_open = function(term)
           vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
-        end
+        end,
+        float_opts = {
+          border = "single",
+        }
       })
     end
   },
