@@ -152,7 +152,14 @@ require("lazy").setup({
   { "xiyaowong/transparent.nvim" },
   {"nvim-tree/nvim-tree.lua",
     config = function()
-      require("nvim-tree").setup({})
+      require("nvim-tree").setup({
+        git = {
+          ignore = false,
+        },
+        filters = {
+          dotfiles = false,
+        },
+      })
       vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
     end
   },
